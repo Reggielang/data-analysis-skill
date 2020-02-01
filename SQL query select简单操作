@@ -18,3 +18,17 @@ where city = '上海' and education in('本科','大专');
 
 SELECT * FROM data.dataanalyst
 where city = '上海' or city = '北京';
+
+SELECT * FROM data.dataanalyst
+where (city = '上海')
+and (education = '本科' or workYear = '1-3年');
+
+
+SELECT * FROM data.dataanalyst
+where (city = '上海' and education = '本科')
+or (city = '北京' and education = '硕士');
+
+
+代表包括条件的查找
+SELECT * FROM data.company
+where companyLabelList like '%五险一金%';
