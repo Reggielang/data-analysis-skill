@@ -17,3 +17,28 @@ group by city;
 一个城市不同岗位的计数
 SELECT city, education count(1) FROM data.dataanalyst
 group by city, education;
+
+所有城市中最低工资必须大于15
+SELECT * FROM data.dataanalyst
+group by city
+having bottom >=15;
+
+所有城市中最低工资必须大于15，然后根据最低工资排序
+SELECT * FROM data.dataanalyst
+group by city
+having bottom >=15
+order by bottom;
+
+所有城市中电子商务岗位大于50个
+SELECT * FROM data.dataanalyst
+where industryfield like '%电子商务%'
+group by city
+having count(positionId) >= 50
+
+第二种做法
+SELECT * FROM data.dataanalyst
+group by city
+having count(if(industryfield like '%电子商务%',1,null)) >= 50
+
+在公司标签中有五险一金的公司有多少个
+SELECT count(if (companyLabelList like '%五险一金%',companyLabelList,null)) FROM data.company
