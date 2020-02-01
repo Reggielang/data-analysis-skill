@@ -1,0 +1,19 @@
+分组
+SELECT * FROM data.dataanalyst
+group by city;
+
+分组计算每个城市拥有多少人
+SELECT city, count(positionId) FROM data.dataanalyst
+group by city;
+
+1 和 * 实际上差不多，1是按照默认分组，*去除了空值。
+SELECT city, count(positionId),count(1),count(*) FROM data.dataanalyst
+group by city;
+
+一个城市的有多少个岗位
+SELECT city, count(positionId),count(distinct companyId) FROM data.dataanalyst
+group by city;
+
+一个城市不同岗位的计数
+SELECT city, education count(1) FROM data.dataanalyst
+group by city, education;
