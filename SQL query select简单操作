@@ -2,6 +2,8 @@
 SELECT * FROM data.dataanalyst where city not in ('上海');
 SELECT * FROM data.dataanalyst where city  in ('上海');
 
+
+SELECT * FROM data.dataanalyst where companyId  in (1000，2000);
 SELECT * FROM data.dataanalyst where companyId > 1000;
 
 SELECT * FROM data.dataanalyst
