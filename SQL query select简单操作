@@ -1,0 +1,18 @@
+单一条件查找
+SELECT * FROM data.dataanalyst where city not in ('上海');
+SELECT * FROM data.dataanalyst where city  in ('上海');
+
+SELECT * FROM data.dataanalyst where companyId > 1000;
+
+SELECT * FROM data.dataanalyst
+where positionId between 1111100 and 1200000;
+
+多条件查找
+SELECT * FROM data.dataanalyst
+where city = '上海' and education ='本科';
+
+SELECT * FROM data.dataanalyst
+where city = '上海' and education in('本科','大专');
+
+SELECT * FROM data.dataanalyst
+where city = '上海' or city = '北京';
