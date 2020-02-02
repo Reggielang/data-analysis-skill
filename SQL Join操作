@@ -1,0 +1,29 @@
+简单的两个表连接查询
+SELECT * FROM data.dataanalyst
+join data.company on dataanalyst.companyId = company.companyId;
+
+能匹配上去的就匹配上去，但如果没有关联数据则会很多行会显示空值。
+SELECT * FROM data.dataanalyst as d
+left join (SELECT * FROM data.company
+where companySize = '150-500人') as t
+on d.companyId = t.companyId;
+
+去除上面查询结果的空值
+SELECT * FROM data.dataanalyst as d
+left join (SELECT * FROM data.company
+where companySize = '150-500人') as t
+on d.companyId = t.companyId
+where t.companyId is not null;
+
+计数公司规模为150到500人的
+SELECT count(1) FROM data.dataanalyst as d
+left join (SELECT * FROM data.company
+where companySize = '150-500人') as t
+on d.companyId = t.companyId
+where t.companyId is not null;
+
+count(1)代表总的公司， 后面的表示150到500人的公司
+SELECT count(1), count(t.companyId) FROM data.dataanalyst as d
+left join (SELECT * FROM data.company
+where companySize = '150-500人') as t
+on d.companyId = t.companyId;
