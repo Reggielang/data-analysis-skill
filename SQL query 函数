@@ -1,0 +1,51 @@
+left，right, locate，函数的用法
+SELECT left(companySize,3), locate('-',companySize,3), companySize FROM data.company;
+
+
+SELECT 
+left(companySize, locate('-',companySize)-1),
+locate('-',companySize),
+length(companySize),
+right(companySize,length(companySize)-locate('-',companySize)),
+companySize FROM data.company;
+
+
+substr的用法（字符串，从哪里开始，截取长度）
+SELECT 
+left(companySize, locate('-',companySize)-1),
+locate('-',companySize),
+length(companySize),
+substr(companySize,locate('-',companySize)+1,length(companySize)-locate('-',companySize)),
+companySize FROM data.company;
+
+
+子查询
+SELECT (bottom+top)/2 from(
+select 
+left(companySize, locate('-',companySize)-1) as bottom,
+substr(companySize,locate('-',companySize)+1,length(companySize)-locate('-',companySize)) as top,
+companySize 
+FROM data.company) as t;
+
+
+子查询分情况
+SELECT 
+	case 
+	when(bottom+top)/2 <= 300 then 'small'
+	when(bottom+top)/2 <= 500 then 'midden'
+	when(bottom+top)/2 <= 1000 then 'big'
+	else 'lag' 
+		end,
+	companySize from(
+		select 
+		left(companySize, locate('-',companySize)-1) as bottom,
+		substr(companySize,locate('-',companySize)+1,length(companySize)-locate('-',companySize)) as top,
+		companySize 
+		FROM data.company) as t;
+    
+SELECT * FROM data.dataanalyst
+where city in(
+	SELECT city FROM data.dataanalyst
+	group by city having bottom >= 15);
+    
+    
