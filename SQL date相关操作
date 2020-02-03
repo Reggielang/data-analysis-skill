@@ -1,0 +1,10 @@
+改变为时间类型的输出
+SELECT paidTime, date(paidTime),date_format(paidTime,'%Y-%M') from data.orderinfo;
+
+在原本的天数上进行加减操作
+SELECT paidTime, date(paidTime),date_format(paidTime,'%Y-%M'), date_add(paidTime,interval 1 day) from data.orderinfo;
+
+计算在每个月消费的记录有多少
+SELECT count(date_format(paidTime,'%Y-%M')), paidTime, date(paidTime),date_format(paidTime,'%Y-%M') from data.orderinfo
+group by date_format(paidTime,'%Y-%M');
+
