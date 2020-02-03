@@ -1,0 +1,53 @@
+统一不同月份下的消费人数，（要排除相同user的情况所以计数时要使用distinct，同时排除‘未支付的情况’）
+SELECT date_format(paidTime,'%Y-%M'), count(distinct userid) from data.orderinfo
+where ispaid = '已支付'
+group by date_format(paidTime,'%Y-%M');
+
+在三月份，进行了复购的用户
+SELECT userId, count(userId) from data.orderinfo
+where ispaid = '已支付' and month(paidTime) = 3
+group by userId having count(userId) > 1;
+
+三月份的复购率
+select count(ct), count(if(ct>1,1,null)) from (
+	SELECT userId, count(userId) as ct from data.orderinfo
+	where ispaid = '已支付' and month(paidTime) = 3
+	group by userId) t;
+  
+男女消费频率是否有差异
+select sex, avg(ct) from(
+  SELECT o.userId,sex, count(1) as ct FROM data.orderinfo o
+  left join(
+    SELECT * FROM data.userinfo
+    where sex is not null) t 
+    on o.userId = t.userId
+    group by userId, sex) t2
+    group by sex;
+    
+一个用户第一个订单和最后一个订单的间隔时间是多少    
+SELECT userId,max(paidTime), min(paidTime), datediff(max(paidTime),min(paidTime)) FROM data.orderinfo
+where ispaid = '已支付'
+group by userId having count(1) > 1;
+
+
+不同年龄段的消费是否存在差异
+select age, avg(ct) from( 
+select o.userId,age, count(o.userId) as ct from data.orderinfo o
+inner join( 	
+    SELECT userId, ceil((year(now())-year(birth))/10)  as age FROM data.userinfo
+	where birth <now()) t
+    on o.userId = t.userId
+    group by userId,age) t2
+    group by age;
+
+
+TOP20%的用户，消费占比   
+select count(userId), sum(total) from(
+SELECT userId, sum(price) as total  FROM data.orderinfo o
+where ispaid = '已支付'
+group by userId
+order by total desc
+limit 17000) t;    
+    
+    
+    
